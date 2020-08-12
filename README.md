@@ -2,5 +2,5 @@
 
 ## To-do
 
-- [] Add setup instructions
-- [] Document notebooks
+- [ ] Add setup instructions
+- [ ] Document notebooks
