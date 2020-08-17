@@ -2,15 +2,20 @@ import streamlit as st
 import pandas as pd
 import awesome_streamlit as ast
 
+@st.cache
+def load_data():
+    raw = pd.read_csv("data/insurance.csv")
+    proc = pd.read_csv("data/insurance_preprocessed.csv")
+    proc.charges = (proc.charges > 10000).astype('int')
+    cols = ['age', 'bmi', 'children', 'sex', 'smoker', 'region_northeast',
+    'region_northwest', 'region_southeast', 'region_southwest', 'charges']
+    proc = proc[cols]
+    return raw, proc
+
 def write():
 
     with st.spinner("Loading Preprocessing ..."):
-        raw = pd.read_csv("data/insurance.csv")
-        proc = pd.read_csv("data/insurance_preprocessed.csv")
-        proc.charges = (proc.charges > 10000).astype('int')
-        cols = ['age', 'bmi', 'children', 'sex', 'smoker', 'region_northeast',
-        'region_northwest', 'region_southeast', 'region_southwest', 'charges']
-        proc = proc[cols]
+        raw, proc = load_data()
 
         st.title('Data preprocessing')
 

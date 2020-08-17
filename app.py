@@ -3,12 +3,14 @@ import awesome_streamlit as ast
 
 import src.pages.home
 import src.pages.preprocessing
+import src.pages.eda
 
 ast.core.services.other.set_logging_format()
 
 PAGES = {
     "Home": src.pages.home,
     "Preprocessing": src.pages.preprocessing,
+    "Explorative data analysis": src.pages.eda,
 }
 
 def main():
