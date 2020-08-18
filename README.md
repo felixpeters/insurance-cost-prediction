@@ -2,5 +2,16 @@
 
 ## To-do
 
-- [ ] Add setup instructions
+### Notebooks
+
 - [ ] Document notebooks
+
+### Web application
+
+- [ ] Add model evaluation page
+- [ ] Add model prediction page
+- [ ] Add introduction text to homepage
+
+### Documentation
+
+- [ ] Add setup instructions
