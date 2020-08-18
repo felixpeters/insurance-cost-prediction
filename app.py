@@ -9,8 +9,8 @@ ast.core.services.other.set_logging_format()
 
 PAGES = {
     "Home": src.pages.home,
-    "Preprocessing": src.pages.preprocessing,
     "Explorative data analysis": src.pages.eda,
+    "Preprocessing": src.pages.preprocessing,
 }
 
 def main():

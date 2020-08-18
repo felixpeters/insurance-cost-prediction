@@ -9,7 +9,6 @@ def load_data():
     raw = pd.read_csv("data/insurance.csv")
     raw['charges_bin']= (raw.charges > 10000)
     raw.sex = raw.sex.astype('category')
-    raw.age = raw.age.astype('int')
     raw.smoker = raw.smoker.astype('category')
     raw.region = raw.region.astype('category')
     return raw
@@ -36,6 +35,15 @@ def filter_data(copy, sex, age, bmi, children, smoker, regions):
     copy = copy[(copy.children >= children[0]) & (copy.children <= children[1])]
     return copy
 
+@st.cache
+def get_features(copy):
+    features = copy.columns.tolist()
+    if 'charges' in features:
+        features.remove('charges')
+    if 'charges_bin' in features:
+        features.remove('charges_bin')
+    return features
+
 def write():
 
     with st.spinner("Loading Preprocessing ..."):
@@ -44,7 +52,7 @@ def write():
 
         st.title('Explorative data analysis')
 
-        st.write('## Distribution of target variable')
+        st.write('## 1. Select subset of data')
 
         sex = st.radio("Filter by sex", ("All", "Male", "Female"))
         smoker = st.radio("Filter by smoker", ("All", "Smoker", "Non-smoker"))
@@ -76,45 +84,29 @@ def write():
 
         copy = filter_data(copy, sex, age, bmi, children, smoker, regions)
 
-        st.write(f'Target variable distribution based on {len(copy)} selected examples:')
+        st.write(f'**{len(copy)} examples** were found based on your selection.')
+
+        st.write('## 2. Examine target variable distribution')
 
         plt.hist(copy.charges, bins=20)
         plt.xlabel('Insurance cost')
         plt.ylabel('Frequency')
         st.pyplot()
 
-        st.write('## Distribution of input variables')
+        st.write('## 3. Examine input variable distributions')
 
-        st.write('### Continuous variables')
+        features = get_features(copy)
+        copy.children = copy.children.astype('category')
+        feature = st.selectbox('Choose an input variable', features)
+        st.write(f'Dtype of selected column: {copy[feature].dtype}')
 
-        plt.hist(raw.age, bins=20)
-        plt.xlabel('Age')
-        plt.ylabel('Frequency')
-        st.pyplot()
-
-        plt.hist(raw.bmi, bins=20)
-        plt.xlabel('Body mass index')
-        plt.ylabel('Frequency')
-        st.pyplot()
-
-        st.write('### Categorical variables')
-
-        plt.bar(raw.sex.cat.categories, raw.sex.value_counts(sort=False))
-        plt.xlabel('Sex')
-        plt.ylabel('Frequency')
-        st.pyplot()
-
-        plt.hist(raw.children, bins=5)
-        plt.xlabel('Number of children')
-        plt.ylabel('Frequency')
-        st.pyplot()
-
-        plt.bar(raw.smoker.cat.categories, raw.smoker.value_counts(sort=False))
-        plt.xlabel('Smoker')
-        plt.ylabel('Frequency')
-        st.pyplot()
-
-        plt.bar(raw.region.cat.categories, raw.region.value_counts(sort=False))
-        plt.xlabel('Region')
-        plt.ylabel('Frequency')
-        st.pyplot()
+        if copy[feature].dtype.name == 'category':
+            plt.bar(copy[feature].cat.categories, copy[feature].value_counts(sort=False))
+            plt.xlabel(feature)
+            plt.ylabel('frequency')
+            st.pyplot()
+        else:
+            plt.hist(copy[feature], bins=20)
+            plt.xlabel(feature)
+            plt.ylabel('frequency')
+            st.pyplot()
