@@ -1,5 +1,7 @@
 # Insurance cost prediction
 
+Heroku app: [Link](https://fpc-showcase-insurance.herokuapp.com/)
+
 ## To-do
 
 ### Notebooks
