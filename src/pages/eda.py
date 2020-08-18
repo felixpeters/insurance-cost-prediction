@@ -98,7 +98,6 @@ def write():
         features = get_features(copy)
         copy.children = copy.children.astype('category')
         feature = st.selectbox('Choose an input variable', features)
-        st.write(f'Dtype of selected column: {copy[feature].dtype}')
 
         if copy[feature].dtype.name == 'category':
             plt.bar(copy[feature].cat.categories, copy[feature].value_counts(sort=False))
