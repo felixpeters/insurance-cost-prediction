@@ -17,3 +17,7 @@ Heroku app: [Link](https://fpc-showcase-insurance.herokuapp.com/)
 ### Documentation
 
 - [ ] Add setup instructions
+
+## Extensions
+
+- [ ] Analysis of bivariate relationships on EDA page
